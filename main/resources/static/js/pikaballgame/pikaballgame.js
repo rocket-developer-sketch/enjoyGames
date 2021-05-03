@@ -4,11 +4,10 @@
 	    상대방 피카츄는 자동으로 y축 이동
 	    맞으면 점수얻음
 	    화면상단 가운데에, 
-	        피카피카츄
 	        조작법: 마우스, 스페이스바(빅볼던지기)
-	        몬스터볼은 연속으로 6개 까지 던질 수 있습니다. 
+	        몬스터볼은 연속으로 6개 까지 던질 수 있습니다.
 	    빅볼은 총 3개
-	    빅볼은 3번 전부 던지면, 런타임 3초 있고, 다시 3개 채워짐
+	    빅볼은 3번 전부 던지면, 런타임 5초 있고, 다시 3개 채워짐
 	    위아래로 올라갔다 : 조준경reboundY,isReload
 	*/
 	
@@ -77,14 +76,16 @@
 	window.onload = function() {
 		let canvas = document.getElementById("myCanvas");
 		ctx = canvas.getContext("2d");
-
 		canvas.onmousemove = movePika;
 		let body = document.body;
-		body.onkeydown = goBall;
+		// 클릭 으로 몬스터볼 날리기
+		document.getElementById("myCanvas").addEventListener("click", goBall);
+		// 스페이스바로 빅 몬스터볼 날리기
+		body.onkeydown = goBigBall;
 		window.setInterval(drawScreen, 100);
 
 	}
-	
+
 	//내 피카추 상하 움직이기
 	function movePika(e) {
 		if (e.pageY <= 520) {
@@ -94,8 +95,26 @@
 	}
 
 	let ballCanGo = true;
-	let index = -1;
-	function goBall(e) {
+	let index = 0;
+	function goBall() {
+		// 공이 나갈 수 있는 거리 조정
+		if(myPikaX > 190) {
+			return false;
+		}
+
+		let b = {
+			bx : myPikaX,
+			by : myPikaY
+		}
+
+		if (ballXArray.length < 6) {
+			ballXArray.push(b);
+			setTimeout(makeScore, 6000);	
+		}
+	}
+	
+	/* 작업 중 20210503 3초 마다 큰 몬스터볼 슈팅 가능 */
+	function goBigBall(e) {
 		if (e.keyCode == 32) {		
 			// 공이 나갈 수 있는 거리 조정
 			if(myPikaX > 190) {
@@ -108,21 +127,20 @@
 					bx : myPikaX,
 					by : myPikaY
 				}
-	
-				//if (ballXArray.length < 6) {
-				ballXArray.push(b);
-				index++;
-				//}  
+				/*
+				if (ballXArray.length < 6) {
+					ballXArray.push(b);
+					index++;
+				}  
 				ballCanGo = false;	
 				drawWaitTime(3);
 				setTimeout(makeBallCanGo, 3000);
-				setTimeout(makeScore, 6000, index);	
-							
+				setTimeout(makeScore, 6000, index);		
+				*/	
 			}
-
 		}	
 	}
-
+	
 	function drawWaitTime (counter) {
 		setInterval(function(){
 			counter--;
@@ -139,13 +157,18 @@
 	}
 	
 	let score = 0;
-	function makeScore(index) {
-		if(Math.abs(ballXArray[index].by - ePikaY) < 38) { // Y축 차지하는 피카추 크기+ 공의 크기 8 더함
+	function makeScore() {
+		if(ballXArray.length == 0) {
+			return;
+		}
+
+		if(Math.abs(ballXArray.shift().by - ePikaY) < 38) { // Y축 차지하는 피카추 크기+ 공의 크기 8 더함
 			score++;
-			drawScore(score);
-		}	
+			drawScore(score);				
+		}
+
 	}
-	
+
 	function drawScore(score){
 		document.getElementById("current_score").innerText = score;
 	}
