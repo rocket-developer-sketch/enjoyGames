@@ -13,74 +13,73 @@
 	*/
 	
 	//그리기 객체
-	var ctx;
+	let ctx;
 	//배경객체들
-	var bgImg1 = new Image();
+	let bgImg1 = new Image();
 	bgImg1.src = "/static/images/pikaballgame/pikabg.jpg";
-	var cloudsImg1 = new Image();
+	let cloudsImg1 = new Image();
 	cloudsImg1.src = "/static/images/pikaballgame/clouds.jpg";
-	var cloudsImg2 = new Image();
+	let cloudsImg2 = new Image();
 	cloudsImg2.src = "/static/images/pikaballgame/clouds.jpg";
-	var cloudsImg1X = 0;
-	var cloudsImg2X = -800;
+	let cloudsImg1X = 0;
+	let cloudsImg2X = -800;
 	
 	//내 피카츄 객체들
-	var myPika1 = new Image();
+	let myPika1 = new Image();
 	myPika1.src = "/static/images/pikaballgame/p1.png";
-	var myPika2 = new Image();
+	let myPika2 = new Image();
 	myPika2.src = "/static/images/pikaballgame/p2.png";
-	var myPika3 = new Image();
+	let myPika3 = new Image();
 	myPika3.src = "/static/images/pikaballgame/p3.png";
-	var myPika4 = new Image();
+	let myPika4 = new Image();
 	myPika4.src = "/static/images/pikaballgame/p4.png";
-	var myPika5 = new Image();
+	let myPika5 = new Image();
 	myPika5.src = "/static/images/pikaballgame/p5.png";
 	
 	//시간세기
-	var counter = 0;
-	;
+	let counter = 0;
 
 	//피카 마우스로 움직 일 때, y값
-	var myPikaY = 50;
-	var myPikaX = 50;
+	let myPikaY = 50;
+	let myPikaX = 50;
 
 	//상대 피카츄 객체들
-	var ePika1 = new Image();
+	let ePika1 = new Image();
 	ePika1.src = "/static/images/pikaballgame/p11.png";
-	var ePika2 = new Image();
+	let ePika2 = new Image();
 	ePika2.src = "/static/images/pikaballgame/p22.png";
-	var ePika3 = new Image();
+	let ePika3 = new Image();
 	ePika3.src = "/static/images/pikaballgame/p33.png";
-	var ePika4 = new Image();
+	let ePika4 = new Image();
 	ePika4.src = "/static/images/pikaballgame/p44.png";
-	var ePika5 = new Image();
+	let ePika5 = new Image();
 	ePika5.src = "/static/images/pikaballgame/p55.png";
 
 	//상대 피카츄 y축
-	var ePikaY = 0;
-	var ePikaup = false;
+	let ePikaY = 0;
+	let ePikaup = false;
 
-	var monsterBall1 = new Image();
+	let monsterBall1 = new Image();
 	monsterBall1.src = "/static/images/pikaballgame/pikaball1.png";
-	var monsterBall2 = new Image();
+	let monsterBall2 = new Image();
 	monsterBall2.src = "/static/images/pikaballgame/pikaball2.png";
-	var monsterBall3 = new Image();
+	let monsterBall3 = new Image();
 	monsterBall3.src = "/static/images/pikaballgame/pikaball3.png";
-	var monsterBall4 = new Image();
+	let monsterBall4 = new Image();
 	monsterBall4.src = "/static/images/pikaballgame/pikaball4.png";
-	var monsterBall5 = new Image();
+	let monsterBall5 = new Image();
 	monsterBall5.src = "/static/images/pikaballgame/pikaball5.png";
 
-	var ballX = 50;
-	var ballXArray = [];
+	let ballX = 50;
+	let ballXArray = [];
 
 	//로딩
 	window.onload = function() {
-		var canvas = document.getElementById("myCanvas");
+		let canvas = document.getElementById("myCanvas");
 		ctx = canvas.getContext("2d");
 
 		canvas.onmousemove = movePika;
-		var body = document.body;
+		let body = document.body;
 		body.onkeydown = goBall;
 		window.setInterval(drawScreen, 100);
 	}
@@ -92,31 +91,41 @@
 			myPikaY = e.pageY;
 		}
 	}
-
+	let index = -1;
+	let ballCanGo = true;
 	function goBall(e) {
-		if (e.keyCode == 32) {
-			var b = {
-				bx : myPikaX,
-				by : myPikaY
+		
+		if (e.keyCode == 32) {		
+			// 공이 나갈 수 있는 거리 조정
+			if(myPikaX > 190) {
+				return false;
 			}
-
-			ballXArray.push(b);
-			console.log(ballXArray);
-		}
+			
+			// 리차지 시간 이후 공이 나갈 수 있음
+			if(ballCanGo) {
+				let b = {
+					bx : myPikaX,
+					by : myPikaY
+				}
+	
+				if (ballXArray.length < 6) {
+					ballXArray.push(b);
+					//index++;
+				}	
+				
+				ballCanGo = false;	
+				setTimeout(makeBallCanGo, 3000);
+			}
+		}	
+	}
+	
+	
+	function makeBallCanGo() {
+		ballCanGo = true;
 	}
 
 	function drawScreen() {
 		counter++;
-
-		//차이만큼 뛰네
-		//            if(ePikaY<=500){ //내려가기
-		//                ePikaY+=30;
-		//                if(ePikaY>=500){ //올라오기
-		//                ePikaY-=200; //여기 통과하면서, ePikaY 값이 정해지면서 계속 그 위치에서 뛰기만 하네
-		//500이 되면 다시 epikaY +30 타버림
-		//                console.log(ePikaY);
-		//                } 
-		//            }
 
 		if (ePikaup) {
 			ePikaY -= 30;
@@ -130,7 +139,6 @@
 		if (ePikaY <= 0) {
 			ePikaup = false;
 		}
-		//조준경과 비교하면, if문 밖으로 빼버림 그리고 밖에서 true, false 판단하고, if(ePikaup)타도록
 
 		//배경그리기
 		ctx.drawImage(bgImg1, 0, 0, 800, 600);
@@ -175,25 +183,27 @@
 			
 		//몬스터 볼 그리기
 		//볼 앞으로 보내기
-		for (var i = 0; i < ballXArray.length; i++) {
-			var ball = ballXArray[i];
+		for (let i = 0; i < ballXArray.length; i++) {
+			let ball = ballXArray[i];
 			ball.bx += 10;
 		}
 		
 		// 여러개의 볼 이미지 띄우기. 볼 배열에서 꺼내기
-		for (var i = 0; i < ballXArray.length; i++) {
-			var ball = ballXArray[i];
-			if (counter % 5 == 0)
+		for (let i = 0; i < ballXArray.length; i++) {
+			let ball = ballXArray[i];
+			
+			if (counter % 5 == 0) {
 				ctx.drawImage(monsterBall1, ball.bx, ball.by, 40, 40);
-			else if (counter % 5 == 1)
+			}
+			else if (counter % 5 == 1){
 				ctx.drawImage(monsterBall2, ball.bx, ball.by, 40, 40);
+			}
 			else if (counter % 5 == 2)
 				ctx.drawImage(monsterBall3, ball.bx, ball.by, 40, 40);
 			else if (counter % 5 == 3)
 				ctx.drawImage(monsterBall4, ball.bx, ball.by, 40, 40);
 			else if (counter % 5 == 4)
 				ctx.drawImage(monsterBall5, ball.bx, ball.by, 40, 40);
-
 		}
 
 	}//drawScreen end
