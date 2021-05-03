@@ -91,10 +91,9 @@
 			myPikaY = e.pageY;
 		}
 	}
-	let index = -1;
+
 	let ballCanGo = true;
 	function goBall(e) {
-		
 		if (e.keyCode == 32) {		
 			// 공이 나갈 수 있는 거리 조정
 			if(myPikaX > 190) {
@@ -110,18 +109,25 @@
 	
 				if (ballXArray.length < 6) {
 					ballXArray.push(b);
-					//index++;
-				}	
-				
+					index++;
+				}  
 				ballCanGo = false;	
 				setTimeout(makeBallCanGo, 3000);
+				setTimeout(makeScore, 6300, index);				
 			}
 		}	
 	}
 	
-	
+	let index = -1;
+	let score = 0;
 	function makeBallCanGo() {
 		ballCanGo = true;
+	}
+	
+	function makeScore(index) {
+		if(Math.abs(ballXArray[index].by - ePikaY) < 30) {
+			score++;
+		}	
 	}
 
 	function drawScreen() {
@@ -158,29 +164,39 @@
 
 		//내 피카 그리기
 		//#### 구름은 느리게, 피카츄는 빠르게: 구름 움직이는 것 보다 피카츄가 빨리 움직이도록
-		if (counter % 5 == 0)
+		if (counter % 5 == 0) {
 			ctx.drawImage(myPika1, 10, myPikaY, 80, 80);
-		else if (counter % 5 == 1)
+		}
+		else if (counter % 5 == 1) {
 			ctx.drawImage(myPika2, 10, myPikaY, 80, 80);
-		else if (counter % 5 == 2)
+		}
+		else if (counter % 5 == 2) {
 			ctx.drawImage(myPika3, 10, myPikaY, 80, 80);
-		else if (counter % 5 == 3)
+		}
+		else if (counter % 5 == 3) {
 			ctx.drawImage(myPika4, 10, myPikaY, 80, 80);
-		else if (counter % 5 == 4)
+		}
+		else if (counter % 5 == 4) {
 			ctx.drawImage(myPika5, 10, myPikaY, 80, 80);
+		}
 			
 		//상대 피카 그리기
-		if (counter % 5 == 0)
+		if (counter % 5 == 0) {
 			ctx.drawImage(ePika1, 720, ePikaY, 80, 80);
-		else if (counter % 5 == 1)
+		}
+		else if (counter % 5 == 1) {
 			ctx.drawImage(ePika2, 720, ePikaY, 80, 80);
-		else if (counter % 5 == 2)
+		}	
+		else if (counter % 5 == 2) {
 			ctx.drawImage(ePika3, 720, ePikaY, 80, 80);
-		else if (counter % 5 == 3)
+		}
+		else if (counter % 5 == 3) {
 			ctx.drawImage(ePika4, 720, ePikaY, 80, 80);
-		else if (counter % 5 == 4)
+		}
+		else if (counter % 5 == 4) {
 			ctx.drawImage(ePika5, 720, ePikaY, 80, 80);
-			
+		}
+		
 		//몬스터 볼 그리기
 		//볼 앞으로 보내기
 		for (let i = 0; i < ballXArray.length; i++) {
@@ -191,19 +207,21 @@
 		// 여러개의 볼 이미지 띄우기. 볼 배열에서 꺼내기
 		for (let i = 0; i < ballXArray.length; i++) {
 			let ball = ballXArray[i];
-			
 			if (counter % 5 == 0) {
 				ctx.drawImage(monsterBall1, ball.bx, ball.by, 40, 40);
 			}
 			else if (counter % 5 == 1){
 				ctx.drawImage(monsterBall2, ball.bx, ball.by, 40, 40);
 			}
-			else if (counter % 5 == 2)
+			else if (counter % 5 == 2) {
 				ctx.drawImage(monsterBall3, ball.bx, ball.by, 40, 40);
-			else if (counter % 5 == 3)
+			}
+			else if (counter % 5 == 3) {
 				ctx.drawImage(monsterBall4, ball.bx, ball.by, 40, 40);
-			else if (counter % 5 == 4)
+			}
+			else if (counter % 5 == 4) {
 				ctx.drawImage(monsterBall5, ball.bx, ball.by, 40, 40);
+			}
 		}
 
 	}//drawScreen end
