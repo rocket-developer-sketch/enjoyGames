@@ -82,6 +82,7 @@
 		let body = document.body;
 		body.onkeydown = goBall;
 		window.setInterval(drawScreen, 100);
+
 	}
 	
 	//내 피카추 상하 움직이기
@@ -93,6 +94,7 @@
 	}
 
 	let ballCanGo = true;
+	let index = -1;
 	function goBall(e) {
 		if (e.keyCode == 32) {		
 			// 공이 나갈 수 있는 거리 조정
@@ -112,18 +114,29 @@
 					index++;
 				}  
 				ballCanGo = false;	
+				drawWaitTime(3);
 				setTimeout(makeBallCanGo, 3000);
 				setTimeout(makeScore, 6300, index);				
 			}
 		}	
 	}
+
+	function drawWaitTime (counter) {
+		setInterval(function(){
+			counter--;
+			if(counter < 0){
+				return;
+			} else {
+				document.getElementById("wait_time").innerText = counter;
+			} 	
+		},1000)
+	}
 	
-	let index = -1;
-	let score = 0;
-	function makeBallCanGo() {
+	function makeBallCanGo() {		
 		ballCanGo = true;
 	}
 	
+	let score = 0;
 	function makeScore(index) {
 		if(Math.abs(ballXArray[index].by - ePikaY) < 30) {
 			score++;
