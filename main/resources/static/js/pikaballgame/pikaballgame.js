@@ -109,15 +109,17 @@
 					by : myPikaY
 				}
 	
-				if (ballXArray.length < 6) {
-					ballXArray.push(b);
-					index++;
-				}  
+				//if (ballXArray.length < 6) {
+				ballXArray.push(b);
+				index++;
+				//}  
 				ballCanGo = false;	
 				drawWaitTime(3);
 				setTimeout(makeBallCanGo, 3000);
-				setTimeout(makeScore, 6300, index);				
+				setTimeout(makeScore, 6000, index);	
+							
 			}
+
 		}	
 	}
 
@@ -138,9 +140,14 @@
 	
 	let score = 0;
 	function makeScore(index) {
-		if(Math.abs(ballXArray[index].by - ePikaY) < 30) {
+		if(Math.abs(ballXArray[index].by - ePikaY) < 38) { // Y축 차지하는 피카추 크기+ 공의 크기 8 더함
 			score++;
+			drawScore(score);
 		}	
+	}
+	
+	function drawScore(score){
+		document.getElementById("current_score").innerText = score;
 	}
 
 	function drawScreen() {
