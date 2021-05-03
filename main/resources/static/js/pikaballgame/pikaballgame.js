@@ -1,0 +1,199 @@
+	/*
+	    클릭하면 포켓몬볼 나가고, 스페이스바에 큰 포켓몬볼 나감
+	    마우스로 피카츄 이동. 마우스커서 보다 왼쪽에 위치함
+	    상대방 피카츄는 자동으로 y축 이동
+	    맞으면 점수얻음
+	    화면상단 가운데에, 
+	        피카피카츄
+	        조작법: 마우스, 스페이스바(빅볼던지기)
+	        몬스터볼은 연속으로 6개 까지 던질 수 있습니다. 
+	    빅볼은 총 3개
+	    빅볼은 3번 전부 던지면, 런타임 3초 있고, 다시 3개 채워짐
+	    위아래로 올라갔다 : 조준경reboundY,isReload
+	*/
+	
+	//그리기 객체
+	var ctx;
+	//배경객체들
+	var bgImg1 = new Image();
+	bgImg1.src = "/static/images/pikaballgame/pikabg.jpg";
+	var cloudsImg1 = new Image();
+	cloudsImg1.src = "/static/images/pikaballgame/clouds.jpg";
+	var cloudsImg2 = new Image();
+	cloudsImg2.src = "/static/images/pikaballgame/clouds.jpg";
+	var cloudsImg1X = 0;
+	var cloudsImg2X = -800;
+	
+	//내 피카츄 객체들
+	var myPika1 = new Image();
+	myPika1.src = "/static/images/pikaballgame/p1.png";
+	var myPika2 = new Image();
+	myPika2.src = "/static/images/pikaballgame/p2.png";
+	var myPika3 = new Image();
+	myPika3.src = "/static/images/pikaballgame/p3.png";
+	var myPika4 = new Image();
+	myPika4.src = "/static/images/pikaballgame/p4.png";
+	var myPika5 = new Image();
+	myPika5.src = "/static/images/pikaballgame/p5.png";
+	
+	//시간세기
+	var counter = 0;
+	;
+
+	//피카 마우스로 움직 일 때, y값
+	var myPikaY = 50;
+	var myPikaX = 50;
+
+	//상대 피카츄 객체들
+	var ePika1 = new Image();
+	ePika1.src = "/static/images/pikaballgame/p11.png";
+	var ePika2 = new Image();
+	ePika2.src = "/static/images/pikaballgame/p22.png";
+	var ePika3 = new Image();
+	ePika3.src = "/static/images/pikaballgame/p33.png";
+	var ePika4 = new Image();
+	ePika4.src = "/static/images/pikaballgame/p44.png";
+	var ePika5 = new Image();
+	ePika5.src = "/static/images/pikaballgame/p55.png";
+
+	//상대 피카츄 y축
+	var ePikaY = 0;
+	var ePikaup = false;
+
+	var monsterBall1 = new Image();
+	monsterBall1.src = "/static/images/pikaballgame/pikaball1.png";
+	var monsterBall2 = new Image();
+	monsterBall2.src = "/static/images/pikaballgame/pikaball2.png";
+	var monsterBall3 = new Image();
+	monsterBall3.src = "/static/images/pikaballgame/pikaball3.png";
+	var monsterBall4 = new Image();
+	monsterBall4.src = "/static/images/pikaballgame/pikaball4.png";
+	var monsterBall5 = new Image();
+	monsterBall5.src = "/static/images/pikaballgame/pikaball5.png";
+
+	var ballX = 50;
+	var ballXArray = [];
+
+	//로딩
+	window.onload = function() {
+		var canvas = document.getElementById("myCanvas");
+		ctx = canvas.getContext("2d");
+
+		canvas.onmousemove = movePika;
+		var body = document.body;
+		body.onkeydown = goBall;
+		window.setInterval(drawScreen, 100);
+	}
+	
+	//내 피카추 상하 움직이기
+	function movePika(e) {
+		if (e.pageY <= 520) {
+			myPikaX = e.pageX;
+			myPikaY = e.pageY;
+		}
+	}
+
+	function goBall(e) {
+		if (e.keyCode == 32) {
+			var b = {
+				bx : myPikaX,
+				by : myPikaY
+			}
+
+			ballXArray.push(b);
+			console.log(ballXArray);
+		}
+	}
+
+	function drawScreen() {
+		counter++;
+
+		//차이만큼 뛰네
+		//            if(ePikaY<=500){ //내려가기
+		//                ePikaY+=30;
+		//                if(ePikaY>=500){ //올라오기
+		//                ePikaY-=200; //여기 통과하면서, ePikaY 값이 정해지면서 계속 그 위치에서 뛰기만 하네
+		//500이 되면 다시 epikaY +30 타버림
+		//                console.log(ePikaY);
+		//                } 
+		//            }
+
+		if (ePikaup) {
+			ePikaY -= 30;
+		} else {
+			ePikaY += 30;
+		}
+
+		if (ePikaY >= 495) {
+			ePikaup = true;
+		}
+		if (ePikaY <= 0) {
+			ePikaup = false;
+		}
+		//조준경과 비교하면, if문 밖으로 빼버림 그리고 밖에서 true, false 판단하고, if(ePikaup)타도록
+
+		//배경그리기
+		ctx.drawImage(bgImg1, 0, 0, 800, 600);
+		if (cloudsImg1X >= 800) {
+			cloudsImg1X = 0;
+			cloudsImg2X = -800;
+		}
+		if (cloudsImg2X >= 800) {
+			cloudsImg2X = 0;
+			cloudsImg1X = -800;
+		}
+		cloudsImg1X += 30;
+		cloudsImg2X += 30;
+
+		ctx.drawImage(cloudsImg1, cloudsImg1X, 0, 800, 200);
+		ctx.drawImage(cloudsImg2, cloudsImg2X, 0, 800, 200);
+
+		//내 피카 그리기
+		//#### 구름은 느리게, 피카츄는 빠르게: 구름 움직이는 것 보다 피카츄가 빨리 움직이도록
+		if (counter % 5 == 0)
+			ctx.drawImage(myPika1, 10, myPikaY, 80, 80);
+		else if (counter % 5 == 1)
+			ctx.drawImage(myPika2, 10, myPikaY, 80, 80);
+		else if (counter % 5 == 2)
+			ctx.drawImage(myPika3, 10, myPikaY, 80, 80);
+		else if (counter % 5 == 3)
+			ctx.drawImage(myPika4, 10, myPikaY, 80, 80);
+		else if (counter % 5 == 4)
+			ctx.drawImage(myPika5, 10, myPikaY, 80, 80);
+			
+		//상대 피카 그리기
+		if (counter % 5 == 0)
+			ctx.drawImage(ePika1, 720, ePikaY, 80, 80);
+		else if (counter % 5 == 1)
+			ctx.drawImage(ePika2, 720, ePikaY, 80, 80);
+		else if (counter % 5 == 2)
+			ctx.drawImage(ePika3, 720, ePikaY, 80, 80);
+		else if (counter % 5 == 3)
+			ctx.drawImage(ePika4, 720, ePikaY, 80, 80);
+		else if (counter % 5 == 4)
+			ctx.drawImage(ePika5, 720, ePikaY, 80, 80);
+			
+		//몬스터 볼 그리기
+		//볼 앞으로 보내기
+		for (var i = 0; i < ballXArray.length; i++) {
+			var ball = ballXArray[i];
+			ball.bx += 10;
+		}
+		
+		// 여러개의 볼 이미지 띄우기. 볼 배열에서 꺼내기
+		for (var i = 0; i < ballXArray.length; i++) {
+			var ball = ballXArray[i];
+			if (counter % 5 == 0)
+				ctx.drawImage(monsterBall1, ball.bx, ball.by, 40, 40);
+			else if (counter % 5 == 1)
+				ctx.drawImage(monsterBall2, ball.bx, ball.by, 40, 40);
+			else if (counter % 5 == 2)
+				ctx.drawImage(monsterBall3, ball.bx, ball.by, 40, 40);
+			else if (counter % 5 == 3)
+				ctx.drawImage(monsterBall4, ball.bx, ball.by, 40, 40);
+			else if (counter % 5 == 4)
+				ctx.drawImage(monsterBall5, ball.bx, ball.by, 40, 40);
+
+		}
+
+	}//drawScreen end
