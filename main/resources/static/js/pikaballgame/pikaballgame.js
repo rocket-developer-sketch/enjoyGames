@@ -69,8 +69,9 @@
 	let monsterBall5 = new Image();
 	monsterBall5.src = "/static/images/pikaballgame/pikaball5.png";
 
-	let ballX = 50;
+	
 	let ballXArray = [];
+	let bigBallXArray = [];
 
 	//로딩
 	window.onload = function() {
@@ -127,16 +128,16 @@
 					bx : myPikaX,
 					by : myPikaY
 				}
-				/*
-				if (ballXArray.length < 6) {
-					ballXArray.push(b);
+				
+				if (bigBallXArray.length < 4) {
+					bigBallXArray.push(b);
 					index++;
-				}  
+				} 
+				
 				ballCanGo = false;	
-				drawWaitTime(3);
+				drawWaitTime(5);
 				setTimeout(makeBallCanGo, 3000);
-				setTimeout(makeScore, 6000, index);		
-				*/	
+				setTimeout(makeScore, 6000, index);
 			}
 		}	
 	}
@@ -161,7 +162,7 @@
 		if(ballXArray.length == 0) {
 			return;
 		}
-
+		
 		if(Math.abs(ballXArray.shift().by - ePikaY) < 38) { // Y축 차지하는 피카추 크기+ 공의 크기 8 더함
 			score++;
 			drawScore(score);				
@@ -264,6 +265,33 @@
 			}
 			else if (counter % 5 == 4) {
 				ctx.drawImage(monsterBall5, ball.bx, ball.by, 40, 40);
+			}
+		}
+		
+		//큰 몬스터 볼 그리기
+		//큰 몬스터 볼 앞으로 보내기
+		for (let i = 0; i < bigBallXArray.length; i++) {
+			let bigBall = bigBallXArray[i];
+			bigBall.bx += 10;
+		}
+		
+		// 여러개의 빅 볼 이미지 띄우기. 볼 배열에서 꺼내기
+		for (let i = 0; i < bigBallXArray.length; i++) {
+			let bigBall = bigBallXArray[i];
+			if (counter % 5 == 0) {
+				ctx.drawImage(monsterBall1, bigBall.bx, bigBall.by, 200, 200);
+			}
+			else if (counter % 5 == 1){
+				ctx.drawImage(monsterBall2, bigBall.bx, bigBall.by, 200, 200);
+			}
+			else if (counter % 5 == 2) {
+				ctx.drawImage(monsterBall3, bigBall.bx, bigBall.by, 200, 200);
+			}
+			else if (counter % 5 == 3) {
+				ctx.drawImage(monsterBall4, bigBall.bx, bigBall.by, 200, 200);
+			}
+			else if (counter % 5 == 4) {
+				ctx.drawImage(monsterBall5, bigBall.bx, bigBall.by, 200, 200);
 			}
 		}
 
