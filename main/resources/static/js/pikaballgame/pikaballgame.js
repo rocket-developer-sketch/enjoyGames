@@ -122,6 +122,12 @@
 				return false;
 			}
 			
+			
+			if(ballCanGo == true && bigBallXArray.length == 3) {
+				bigBallXArray = [];
+				
+				return false;
+			}
 
 			// 리차지 시간 이후 공이 나갈 수 있음
 			if(ballCanGo) {
@@ -132,12 +138,13 @@
 
 				if (bigBallXArray.length < 3) {
 					bigBallXArray.push(b);
+					setTimeout(makeScoreForBigBall, 6000, bigBallXArray.length-1);
+					
 					if(bigBallXArray.length == 3) {
 						chargingBigBall();
 					}
 				} 
 				
-				setTimeout(makeScoreForBigBall, 6000);
 			}
 		}	
 	}
@@ -176,12 +183,13 @@
 
 	}
 	
-	function makeScoreForBigBall(){
-		if(bigBallXArray.length == 0) {
+	function makeScoreForBigBall(index){
+		//setTimeout으로 공을 보낼 수 있는 상태 변화에 따른 배열 초기화로 순간 undefined가 생길 오류가 있어 해놓은 조건
+		if(bigBallXArray[index] === undefined || bigBallXArray.length == 0) {
 			return;
 		}
-		
-		if(Math.abs(bigBallXArray.by - ePikaY) < 190) {
+
+		if(Math.abs(bigBallXArray[index].by - ePikaY) < 190) {
 			score++;
 			drawScore(score);				
 		}
