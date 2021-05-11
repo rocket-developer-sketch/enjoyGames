@@ -122,24 +122,30 @@
 				return false;
 			}
 			
+
 			// 리차지 시간 이후 공이 나갈 수 있음
 			if(ballCanGo) {
 				let b = {
 					bx : myPikaX,
 					by : myPikaY
 				}
-				
-				if (bigBallXArray.length < 4) {
+
+				if (bigBallXArray.length < 3) {
 					bigBallXArray.push(b);
-					index++;
+					if(bigBallXArray.length == 3) {
+						chargingBigBall();
+					}
 				} 
 				
-				ballCanGo = false;	
-				drawWaitTime(5);
-				setTimeout(makeBallCanGo, 3000);
-				setTimeout(makeScore, 6000, index);
+				setTimeout(makeScoreForBigBall, 6000);
 			}
 		}	
+	}
+	
+	function chargingBigBall(){
+		ballCanGo = false;					
+		drawWaitTime(5);
+		setTimeout(makeBallCanGo, 5000);
 	}
 	
 	function drawWaitTime (counter) {
@@ -168,6 +174,17 @@
 			drawScore(score);				
 		}
 
+	}
+	
+	function makeScoreForBigBall(){
+		if(bigBallXArray.length == 0) {
+			return;
+		}
+		
+		if(Math.abs(bigBallXArray.by - ePikaY) < 190) {
+			score++;
+			drawScore(score);				
+		}
 	}
 
 	function drawScore(score){
