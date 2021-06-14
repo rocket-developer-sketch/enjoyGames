@@ -17,5 +17,10 @@ public class GameController {
 	public String openPikaBallGame() {
 		return "pika";
 	}
+	
+	@RequestMapping(value = "/spaceshipgame", method = RequestMethod.GET)
+	public String openSpaceShipGame() {
+		return "spaceship";
+	}
 
 }
