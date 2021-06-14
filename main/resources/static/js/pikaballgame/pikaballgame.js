@@ -8,7 +8,6 @@
 	        몬스터볼은 연속으로 6개 까지 던질 수 있습니다.
 	    빅볼은 총 3개
 	    빅볼은 3번 전부 던지면, 런타임 5초 있고, 다시 3개 채워짐
-	    위아래로 올라갔다 : 조준경reboundY,isReload
 	*/
 	
 	//그리기 객체
@@ -90,8 +89,8 @@
 	//내 피카추 상하 움직이기
 	function movePika(e) {
 		if (e.pageY <= 520) {
-			myPikaX = e.pageX;
-			myPikaY = e.pageY;
+			myPikaX = e.pageX - 30;
+			myPikaY = e.pageY - 30;
 		}
 	}
 
