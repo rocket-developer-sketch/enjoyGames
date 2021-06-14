@@ -74,12 +74,12 @@
 
 	//로딩
 	window.onload = function() {
-		let canvas = document.getElementById("myCanvas");
+		let canvas = document.getElementById("pikaCanvas");
 		ctx = canvas.getContext("2d");
 		canvas.onmousemove = movePika;
 		let body = document.body;
 		// 클릭 으로 몬스터볼 날리기
-		document.getElementById("myCanvas").addEventListener("click", goBall);
+		document.getElementById("pikaCanvas").addEventListener("click", goBall);
 		// 스페이스바로 빅 몬스터볼 날리기
 		body.onkeydown = goBigBall;
 		window.setInterval(drawScreen, 100);
