@@ -130,13 +130,17 @@ function drawBackGroundImage(){
         bg1Y=0;
     }
     
-    for(let i=0; i<missileArry.length; i++){
+	moveMissile();
+   
+    ctx.drawImage(bg1,0,bg1Y,600,800);
+    ctx.drawImage(bg2,0,bg2Y,600,800);
+}
+
+function moveMissile(){
+	 for(let i=0; i<missileArry.length; i++){
         let x = missileArry[i];
         x.my-=10;
     }
-    
-    ctx.drawImage(bg1,0,bg1Y,600,800);
-    ctx.drawImage(bg2,0,bg2Y,600,800);
 }
 
 function drawFireMissile(){
@@ -165,22 +169,30 @@ function drawMySpaceship(){
 	}
 }
 
-function drawEnemySpaceships(){
+function moveEnemySpaceships(){
 	for(let i =0; i<enemyArry.length; i++){
-        let es = enemyArry[i];
-        es.y+=3;
-    }
-    
+		let es = enemyArry[i];
+		es.y+=3;
+	}
+}
+
+function drawEnemySpaceships(){
+    moveEnemySpaceships();
+
     for(let i =0; i<enemyArry.length; i++){
         let es = enemyArry[i];
-        if(counter%4==0) 
+        if(counter%4==0) {
             ctx.drawImage(enemyShip1,es.x-25,es.y-25,50,50);
-        else if(counter%4==1) 
+		}
+        else if(counter%4==1) { 
             ctx.drawImage(enemyShip2,es.x-25,es.y-25,50,50);
-        else if(counter%4==2) 
+		}
+        else if(counter%4==2) { 
             ctx.drawImage(enemyShip3,es.x-25,es.y-25,50,50);
-        else if(counter%4==3) 
+		}
+        else if(counter%4==3) { 
             ctx.drawImage(enemyShip4,es.x-25,es.y-25,50,50);
+		}
 
         if(es.y>850){ 
             enemyArry.shift();
@@ -201,10 +213,10 @@ function drawScreen(){
     }
 
 	drawBackGroundImage();
-    drawFireMissile();
+	drawFireMissile();
 	/* 점수, 도전가능횟수등 위치 맨 위로 이동시 화면출력 되지 않음 */
 	writeRunningStatus();
-    drawMySpaceship();
+	drawMySpaceship();
 	drawEnemySpaceships();
 	checkCollision();
 
