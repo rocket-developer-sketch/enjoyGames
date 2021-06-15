@@ -109,11 +109,7 @@ function writeGameOver(){
 function createGradient(){
 	let canvas=document.getElementById("spaceshipCanvas");
 	ctx.font="35px 고딕";
-	var gradient=ctx.createLinearGradient(0,0,canvas.width,0);
-	gradient.addColorStop("0","magenta");
-	gradient.addColorStop("0.5","blue");
-	gradient.addColorStop("1.0","red");	
-	ctx.fillStyle=gradient;
+	ctx.fillStyle = returnGradientObject(ctx, canvas);
 }
 
 function drawBackGroundImage(){
