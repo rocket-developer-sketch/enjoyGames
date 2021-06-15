@@ -22,5 +22,10 @@ public class GameController {
 	public String openSpaceShipGame() {
 		return "spaceship";
 	}
+	
+	@RequestMapping(value = "/mashrabbitgame", method = RequestMethod.GET)
+	public String openMashRabbitGame() {
+		return "mashrabbit";
+	}
 
 }
