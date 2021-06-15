@@ -95,23 +95,26 @@ function makeEnemy(){
 }
 
 function writeRunningStatus(){
-	createGradient();
+	ctx.font="35px 고딕";
+	createGradient(ctx,spaceshipCanvas);
 	ctx.fillText("점수: "+score,50,50);
 	ctx.fillText("도전가능횟수: "+tries,300,50);
 }
 
 function writeGameOver(){
+	ctx.font="35px 고딕";
 	ctx.fillStyle="white";
 	ctx.fillText("게임 종료",200,400);
 	ctx.fillText("최종 점수: "+score,200,500);
 }
 
+/*
 function createGradient(){
 	let canvas=document.getElementById("spaceshipCanvas");
 	ctx.font="35px 고딕";
 	ctx.fillStyle = returnGradientObject(ctx, canvas);
 }
-
+*/
 function drawBackGroundImage(){
 	bg1Y++;
 	bg2Y++;
