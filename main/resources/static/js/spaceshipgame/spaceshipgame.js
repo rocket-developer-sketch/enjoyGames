@@ -101,12 +101,7 @@ function writeRunningStatus(){
 	ctx.fillText("도전가능횟수: "+tries,300,50);
 }
 
-function writeGameOver(){
-	ctx.font="35px 고딕";
-	ctx.fillStyle="white";
-	ctx.fillText("게임 종료",200,400);
-	ctx.fillText("최종 점수: "+score,200,500);
-}
+
 
 /*
 function createGradient(){
@@ -201,7 +196,7 @@ function drawEnemySpaceships(){
 
 function drawScreen(){
 	if(tries==0) {
-		writeGameOver();
+		writeGameOver(score, 200, 500);
 		return false;
 	}
 	

@@ -10,3 +10,10 @@ function returnGradientObject(ctx, canvas){
 	gradient.addColorStop("1.0","red");	
 	return gradient;
 }
+
+function writeGameOver(Finalscore, x, y){
+	ctx.font="35px 고딕";
+	ctx.fillStyle="white";
+	ctx.fillText("게임 종료",200,400);
+	ctx.fillText("최종 점수: "+Finalscore,x,y);
+}
